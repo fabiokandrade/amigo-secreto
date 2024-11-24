@@ -1,101 +1,132 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import { sortBy } from "ramda";
+import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+import {
+  InputOTP,
+  InputOTPGroup,
+  // InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Participant } from "./types";
+import { list } from "../data/list";
+
+// This would typically come from a backend API
+const participants: Participant[] = list;
+const sortByName = sortBy<Participant>((participant) => participant.name);
+
+export default function SecretSanta() {
+  const [selectedParticipant, setSelectedParticipant] =
+    useState<Participant | null>(null);
+  const [pin, setPin] = useState("");
+  const [revealedAssignment, setRevealedAssignment] = useState<string | null>(
+    null
+  );
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleParticipantClick = (participant: Participant) => {
+    setSelectedParticipant(participant);
+    setPin("");
+    setRevealedAssignment(null);
+    setIsDialogOpen(true);
+  };
+
+  const handlePinSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (selectedParticipant && pin === selectedParticipant.pin) {
+      setRevealedAssignment(selectedParticipant.assignedTo);
+    } else {
+      alert("Ops, PIN incorreto. Tente novamente.");
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="container mx-auto p-4">
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center">
+            LoubaLopes Amigos & Amigas Secret@s
+          </CardTitle>
+          <CardDescription>Primeiro, clique no teu nome.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {sortByName(participants).map((participant) => (
+              <Button
+                key={participant.name}
+                onClick={() => handleParticipantClick(participant)}
+                className="h-24 text-2xl hover:bg-red-500"
+              >
+                {participant.name}
+              </Button>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {selectedParticipant?.name} veja quem você tirou!
+            </DialogTitle>
+            {!revealedAssignment && (
+              <DialogDescription>
+                Escreva o teu PIN para mostrar quem você tirou:
+              </DialogDescription>
+            )}
+          </DialogHeader>
+          {!revealedAssignment && (
+            <form onSubmit={handlePinSubmit} className="space-y-4">
+              {/* <Input
+                type="password"
+                placeholder="Escreva seu PIN (de 4 números)"
+                value={pin}
+                onChange={(e) => setPin(e.target.value)}
+              /> */}
+              Digite seu PIN (de 4 números):
+              <InputOTP maxLength={6} value={pin} onChange={(e) => setPin(e)}>
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                </InputOTPGroup>
+              </InputOTP>
+              <Button type="submit" className="w-full" variant={"destructive"}>
+                Exibir Amigo ou Amiga
+              </Button>
+            </form>
+          )}
+          {revealedAssignment && (
+            <div className="mt-4 text-center">
+              <p className="text-lg font-semibold">
+                Você tirou o(a) seguinte amigo(a) secreto(a):
+              </p>
+              <p className="text-3xl font-bold text-primary">
+                {revealedAssignment}
+              </p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

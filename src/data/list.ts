@@ -1,0 +1,16 @@
+export const list = [
+  { name: "Moreno", pin: "1111", assignedTo: "Marcia" },
+  { name: "Marcia", pin: "1511", assignedTo: "Roberta" },
+  { name: "Roberta", pin: "1042", assignedTo: "Serena" },
+  { name: "Serena", pin: "8642", assignedTo: "Camila" },
+  { name: "Camila", pin: "2465", assignedTo: "Bruno" },
+  { name: "Bruno", pin: "1524", assignedTo: "Fabio" },
+  { name: "Fabio", pin: "8046", assignedTo: "Arthur" },
+  { name: "Arthur", pin: "1972", assignedTo: "Tito" },
+  { name: "Tito", pin: "5881", assignedTo: "Marcela" },
+  { name: "Marcela", pin: "7480", assignedTo: "Caetano" },
+  { name: "Caetano", pin: "4719", assignedTo: "Francildo" },
+  { name: "Francildo", pin: "3646", assignedTo: "Mariana" },
+  { name: "Mariana", pin: "7601", assignedTo: "Ana" },
+  { name: "Ana", pin: "2083", assignedTo: "Moreno" },
+];
