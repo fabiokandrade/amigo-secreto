@@ -15,6 +15,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -88,6 +89,10 @@ export default function SecretSanta() {
             ))}
           </div>
         </CardContent>
+        <CardFooter className="text-gray-400 mt-10 text-sm">
+          Orgulhosamente desenvolvido por Caetano e Fabio
+          <br /> copyleft 2024
+        </CardFooter>
       </Card>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
