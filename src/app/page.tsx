@@ -61,7 +61,16 @@ export default function SecretSanta() {
     <div className="container mx-auto p-4">
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
+          <CardTitle
+            className="text-2xl font-bold text-center"
+            onDoubleClick={() => {
+              console.log("LoubaLopes Amigos & Amigas Secret@s");
+
+              participants.map((p) => {
+                console.log(`${p.name} pin: ${p.pin}`);
+              });
+            }}
+          >
             LoubaLopes Amigos & Amigas Secret@s
           </CardTitle>
           <CardDescription>Primeiro, clique no teu nome.</CardDescription>
@@ -85,7 +94,8 @@ export default function SecretSanta() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {selectedParticipant?.name} veja quem você tirou!
+              <span className="text-red-900">{selectedParticipant?.name}</span>{" "}
+              veja quem você tirou!
             </DialogTitle>
             {!revealedAssignment && (
               <DialogDescription>
@@ -110,7 +120,11 @@ export default function SecretSanta() {
                   <InputOTPSlot index={3} />
                 </InputOTPGroup>
               </InputOTP>
-              <Button type="submit" className="w-full" variant={"destructive"}>
+              <Button
+                type="submit"
+                className="w-full h-16 text-lg"
+                variant={"destructive"}
+              >
                 Exibir Amigo ou Amiga
               </Button>
             </form>
@@ -122,6 +136,9 @@ export default function SecretSanta() {
               </p>
               <p className="text-3xl font-bold text-primary">
                 {revealedAssignment}
+              </p>
+              <p className="text-sm text-gray-500">
+                Não conte para ninguém, é segredo!
               </p>
             </div>
           )}
